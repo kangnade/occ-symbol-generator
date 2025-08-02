@@ -34,6 +34,7 @@ const NavBar = () => {
               "https://paypal.me/nadekang?locale.x=en_US&country.x=CA"
             )
           }
+          px={2}
         >
           <HStack>
             <Text>Sponsor</Text>
