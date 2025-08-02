@@ -5,26 +5,46 @@ import {
   Text,
   Wrap,
 } from "@chakra-ui/react";
-import { BsGithub, BsHeart } from "react-icons/bs";
+import { BsGithub, BsHeartFill } from "react-icons/bs";
 import { defaultIconButtonProps } from "@/utilities/defaultIconButtonProps";
 import ColorModeButton from "./ColorModeButton";
 
 const NavBar = () => {
   // The padding size for both pl (paddingLeft) and pr (paddingRight)
-  const paddingSize = "5";
+  const paddingSize = "10";
+
+  // handle on clicks for the icons
+  const handleClick = (urlLink: string) => {
+    window.open(urlLink, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <Wrap justify="space-between" h="100%">
       <HStack paddingLeft={paddingSize}>
-        <Text textStyle="4xl" fontWeight="bold" letterSpacing="0.1em">
-          MoBoTools
+        <Text textStyle="3xl" fontWeight="bold" letterSpacing="0.05em">
+          OCC Symbol Code Generator
         </Text>
       </HStack>
-      <HStack paddingRight={paddingSize}>
-        <IconButton {...defaultIconButtonProps} aria-label="Sponsor Heart">
-          <BsHeart />
+      <HStack paddingRight={paddingSize} spaceX={1}>
+        <IconButton
+          {...defaultIconButtonProps}
+          aria-label="Sponsor Heart"
+          onClick={() =>
+            handleClick(
+              "https://paypal.me/nadekang?locale.x=en_US&country.x=CA"
+            )
+          }
+        >
+          <HStack>
+            <Text>Sponsor</Text>
+            <BsHeartFill color="red" />
+          </HStack>
         </IconButton>
-        <IconButton {...defaultIconButtonProps} aria-label="Github Icon">
+        <IconButton
+          {...defaultIconButtonProps}
+          aria-label="Github Icon"
+          onClick={() => handleClick("https://github.com/kangnade")}
+        >
           <BsGithub />
         </IconButton>
         <ColorModeButton />
