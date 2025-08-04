@@ -27,6 +27,22 @@ const MainBody = () => {
     occSymbolCode: "",
   });
 
+  // Create state hook variable to control the onFocus and onBlur of the <Input> fields
+  // initiated with null with type of either string (for event.target.name) or null
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+
+  // handle the onFocus property of <Input> field when user types input
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    const name = e.target.name;
+    setFocusedField(name);
+    console.log(name);
+  };
+
+  // handle the onBlur property of <Input> field when user moves to next input field
+  const handleBlur = () => {
+    setFocusedField(null);
+  };
+
   // Build a function that handles the input change within the <Input> element
   const handleInputChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Extract the name and the value from event target in the <Input> element triggered by onChange
@@ -123,6 +139,11 @@ const MainBody = () => {
                   maxLength={6}
                   value={optionData.optionRoot}
                   onChange={handleInputChanges}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                  borderColor={
+                    focusedField === "optionRoot" ? "green.700" : undefined
+                  }
                 />
               </Field.Root>
               <Field.Root alignItems="center">
@@ -134,6 +155,11 @@ const MainBody = () => {
                   maxLength={6}
                   value={optionData.expirationDate}
                   onChange={handleInputChanges}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                  borderColor={
+                    focusedField === "expirationDate" ? "green.700" : undefined
+                  }
                 />
               </Field.Root>
               <Field.Root alignItems="center">
@@ -145,6 +171,11 @@ const MainBody = () => {
                   maxLength={1}
                   value={optionData.callPut}
                   onChange={handleInputChanges}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                  borderColor={
+                    focusedField === "callPut" ? "green.700" : undefined
+                  }
                 />
               </Field.Root>
               <Field.Root alignItems="center">
@@ -155,6 +186,11 @@ const MainBody = () => {
                   width={inputFieldWidth}
                   value={optionData.strikePrice}
                   onChange={handleInputChanges}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                  borderColor={
+                    focusedField === "strikePrice" ? "green.700" : undefined
+                  }
                 />
               </Field.Root>
             </HStack>
@@ -174,7 +210,7 @@ const MainBody = () => {
               {optionData.occSymbolCode ||
                 "Enter all fields correctly to generate code"}
             </Text>
-            <Clipboard.Root value="TO BE REPLACED LATER">
+            <Clipboard.Root value={optionData.occSymbolCode}>
               <ClipboardTrigger asChild>
                 <IconButton variant="ghost" color="red.400">
                   <Clipboard.Indicator />
