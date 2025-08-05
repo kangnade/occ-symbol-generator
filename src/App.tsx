@@ -7,9 +7,9 @@ const App = () => {
     <Grid
       templateAreas={`"header" "main" "footer"`}
       gridTemplateRows={[
-        "80px 1fr 120px",
-        "100px 1fr 140px",
-        "120px 1fr 160px",
+        "80px 1fr 100px",
+        "100px 1fr 120px",
+        "120px 1fr 140px",
       ]} // Header height: mobile, tablet, desktop
       gridTemplateColumns={"1fr"}
       // min-height={"100vh"} handling potential overflow

@@ -9,10 +9,13 @@ import {
   ClipboardTrigger,
   IconButton,
   NativeSelect,
+  FileUpload,
+  Icon,
 } from "@chakra-ui/react";
 import { OptionData } from "@/utilities/optionDataForm";
 import { useEffect, useState } from "react";
 import { restrictStrikeInput } from "@/utilities/validateStrikePrice";
+import { LuUpload } from "react-icons/lu";
 
 const MainBody = () => {
   const inputFieldWidth = "7rem";
@@ -196,14 +199,17 @@ const MainBody = () => {
           </Fieldset.Content>
           <Box
             bg="green.600"
-            width="20%"
+            width={["100%", "80%", "60%", "40%", "30%"]} // Responsive widths across different devices
             height="auto"
             textAlign="center"
             display="flex"
             justifyContent="space-between"
             borderRadius="sm"
             alignItems="center"
-            paddingLeft={5}
+            padding={3}
+            mt={4}
+            flexWrap="wrap" // allows wrapping on small screens
+            gap={2} // adds spacing when wrapped
           >
             <Text userSelect="text" whiteSpace="pre">
               {optionData.occSymbolCode ||
@@ -218,6 +224,25 @@ const MainBody = () => {
             </Clipboard.Root>
           </Box>
         </Fieldset.Root>
+        <Box display="flex" justifyContent="center" alignItems="center" mt={6}>
+          <FileUpload.Root
+            width={["100%", "80%", "60%", "40%", "30%"]}
+            alignItems="center"
+            maxFiles={10}
+          >
+            <FileUpload.HiddenInput />
+            <FileUpload.Dropzone>
+              <Icon size="lg" color="fg.muted">
+                <LuUpload />
+              </Icon>
+              <FileUpload.DropzoneContent>
+                <Box>Drag and drop files here</Box>
+                <Box color="fg.muted">.png, .jpg up to 5MB</Box>
+              </FileUpload.DropzoneContent>
+            </FileUpload.Dropzone>
+            <FileUpload.List />
+          </FileUpload.Root>
+        </Box>
       </Box>
     </>
   );
