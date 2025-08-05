@@ -8,6 +8,7 @@ import {
   Clipboard,
   ClipboardTrigger,
   IconButton,
+  NativeSelect,
 } from "@chakra-ui/react";
 import { OptionData } from "@/utilities/optionDataForm";
 import { useEffect, useState } from "react";
@@ -59,11 +60,6 @@ const MainBody = () => {
         // expirationDate up to 6 char value (<input> field limited to 6)
         userInputValue = value.slice(0, 6);
         break;
-      case "callPut":
-        // callPut up to only 1 char, allow user to enter lower or upper case letters
-        // convert all to upper case letters C or P
-        userInputValue = value.slice(0, 1).toUpperCase();
-        break;
       case "strikePrice":
         // use restrictStikeInput method to validate and then return the result of strike price part
         userInputValue = restrictStrikeInput(value);
@@ -75,6 +71,11 @@ const MainBody = () => {
     // here update the prev (previous form of optionData, and set to the updated one specific to the
     // name: value pair)
     setOptionData((prev) => ({ ...prev, [name]: userInputValue }));
+  };
+
+  // Handle select value change for callPut field
+  const handleSelectChanges = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setOptionData((prev) => ({ ...prev, callPut: e.target.value }));
   };
 
   // Use the useEffect hook to generate the correct OCC option symbol code
@@ -164,19 +165,17 @@ const MainBody = () => {
               </Field.Root>
               <Field.Root alignItems="center">
                 <Field.Label {...fieldLabelFont}>Call/Put</Field.Label>
-                <Input
-                  name="callPut"
-                  placeholder="C"
-                  width={inputFieldWidth}
-                  maxLength={1}
-                  value={optionData.callPut}
-                  onChange={handleInputChanges}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                  borderColor={
-                    focusedField === "callPut" ? "green.700" : undefined
-                  }
-                />
+                <NativeSelect.Root width={inputFieldWidth}>
+                  <NativeSelect.Field
+                    placeholder="CallPut"
+                    value={optionData.callPut} // Controlled value
+                    onChange={handleSelectChanges} // Update state on change
+                  >
+                    <option value="C">C</option>
+                    <option value="P">P</option>
+                  </NativeSelect.Field>
+                  <NativeSelect.Indicator />
+                </NativeSelect.Root>
               </Field.Root>
               <Field.Root alignItems="center">
                 <Field.Label {...fieldLabelFont}>Strike Price</Field.Label>
