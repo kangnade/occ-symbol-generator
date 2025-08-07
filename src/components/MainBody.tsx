@@ -16,6 +16,17 @@ import { OptionData } from "@/utilities/optionDataForm";
 import { useEffect, useState } from "react";
 import { restrictStrikeInput } from "@/utilities/validateStrikePrice";
 import { LuUpload } from "react-icons/lu";
+import Papa from "papaparse";
+
+// Build the row data shape of the upload files for creating occSymbolCode with bulk upload
+interface RowData {
+  tradeID?: string;
+  optionRoot: string;
+  expirationDate: string;
+  callPut: string;
+  strikePrice: string;
+  occSymbolCode?: string;
+}
 
 const MainBody = () => {
   const inputFieldWidth = "7rem";
@@ -108,6 +119,64 @@ const MainBody = () => {
     optionData.callPut,
     optionData.strikePrice,
   ]);
+
+  // Create a function for generating occSymbolCode using the rowData interface structure for upload files
+  const generateOCCSymbolCode = (row: RowData): string => {
+    // extract row information from the row of RowData interface structure
+    const { optionRoot, expirationDate, callPut, strikePrice } = row;
+    // Parse the strike price to float number
+    const strike = parseFloat(strikePrice);
+    // if missing strike price, return empty string
+    if (isNaN(strike)) return "";
+
+    // Otherwise if strike not empty, create real strike by multiplying the strike with 1000 and padd with starting 0s
+    // up to 8 digits
+    const paddedStrikePrice = (strike * 1000).toString().padStart(8, "0");
+    // Pad the option root with trailing space up to 6 chars
+    const paddedOptionRoot = optionRoot.padEnd(6, " ");
+
+    // return the occSymbolCode
+    return `${paddedOptionRoot}${expirationDate}${callPut}${paddedStrikePrice}`;
+  };
+
+  // Create a function using papaparse library to handle onChang for the FieldUpload element
+  // Operate on rows and generate occSymbolCode on each row under the column called occSymbolCode
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // Retrieve the file from event.target.files' first file
+    // If such file doesnt exist, simply return
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Once the file is retrieved. We need to parse local files using Papa.parse(file, config):
+    // We use interface type RowData
+    Papa.parse<RowData>(file, {
+      // In the configuration, we need header, complete, and skipEmptyLines properties to be defined
+      header: true,
+      skipEmptyLines: true,
+      // define below callback function when parsing is complete. Complete receives parse result.
+      complete: (result) => {
+        const output = result.data.map((row) => ({
+          ...row,
+          occSymbolCode: generateOCCSymbolCode(row),
+        }));
+
+        // Once occSymbolCode is generated, we can convert it back to CSV format
+        const csvFile = Papa.unparse(output);
+        // Create a Blob and create the URL from the blob
+        const blob = new Blob([csvFile], { type: "text/csv;charset=utf-8;" });
+        const fileURL = URL.createObjectURL(blob);
+
+        // Create a <a> anchor element that has href points to fileURL with attribute for download and download file name
+        const link = document.createElement("a");
+        link.href = fileURL;
+        link.setAttribute("download", "options_with_occ_codes.csv");
+        // Append the link and triggers click to download, then remove the link for clean-up
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      },
+    });
+  };
 
   return (
     <>
@@ -228,9 +297,9 @@ const MainBody = () => {
           <FileUpload.Root
             width={["100%", "80%", "60%", "40%", "30%"]}
             alignItems="center"
-            maxFiles={10}
+            maxFiles={1}
           >
-            <FileUpload.HiddenInput />
+            <FileUpload.HiddenInput onChange={handleFileUpload} accept=".csv" />
             <FileUpload.Dropzone>
               <Icon size="lg" color="fg.muted">
                 <LuUpload />
