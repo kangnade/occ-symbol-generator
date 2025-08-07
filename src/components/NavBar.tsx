@@ -9,14 +9,14 @@ import { BsGithub, BsHeartFill } from "react-icons/bs";
 import { defaultIconButtonProps } from "@/utilities/defaultIconButtonProps";
 import ColorModeButton from "./ColorModeButton";
 
+// handle on clicks for the icons
+export const handleLinkClick = (urlLink: string) => {
+  window.open(urlLink, "_blank", "noopener,noreferrer");
+};
+
 const NavBar = () => {
   // The padding size for both pl (paddingLeft) and pr (paddingRight)
   const paddingSize = "10";
-
-  // handle on clicks for the icons
-  const handleClick = (urlLink: string) => {
-    window.open(urlLink, "_blank", "noopener,noreferrer");
-  };
 
   return (
     <Wrap justify="space-between" h="100%">
@@ -30,7 +30,7 @@ const NavBar = () => {
           {...defaultIconButtonProps}
           aria-label="Sponsor Heart"
           onClick={() =>
-            handleClick(
+            handleLinkClick(
               "https://paypal.me/nadekang?locale.x=en_US&country.x=CA"
             )
           }
@@ -44,7 +44,7 @@ const NavBar = () => {
         <IconButton
           {...defaultIconButtonProps}
           aria-label="Github Icon"
-          onClick={() => handleClick("https://github.com/kangnade")}
+          onClick={() => handleLinkClick("https://github.com/kangnade")}
         >
           <BsGithub />
         </IconButton>
