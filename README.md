@@ -10,7 +10,7 @@ One of the issues was to create the OCC Option Symbol Code for asset transferrin
 - [About the Project](#about-the-project)
 - [Features](#features)
 - [Installation](#installation)
-- [Bulk Upload](#bulkupload)
+- [Bulk-Upload](#bulk-upload)
 - [Contact](#contact)
 - [Acknowledgements](#acknowledgements)
 
