@@ -29,7 +29,7 @@ interface RowData {
 }
 
 const MainBody = () => {
-  const inputFieldWidth = "7rem";
+  const inputFieldWidth = ["100%", "6rem", "7rem"]; // Full width on mobile, slightly reduced
   const fieldLabelFont = { fontWeight: "bold" };
 
   // Create a state hook, initiated with empty string using the form from OptionData,
@@ -184,24 +184,31 @@ const MainBody = () => {
         borderWidth="0.2rem"
         borderStyle="solid"
         borderColor="auto"
-        padding="1rem"
+        padding={["1", "2"]} // Reduced padding for mobile
       >
         <Fieldset.Root size="lg" alignItems="center">
           <Fieldset.Legend
-            fontSize="1.5rem"
+            fontSize={["sm", "md", "1.5rem"]}
             fontWeight="bold"
             textAlign="center"
           >
             Option Symbol Code Details
           </Fieldset.Legend>
-          <Text fontSize="1rem" fontWeight="bold" textAlign="center">
+          <Text
+            fontSize={["xs", "sm", "1rem"]}
+            fontWeight="bold"
+            textAlign="center"
+          >
             Designed for investment bank professionals
           </Text>
-          <Fieldset.Content width="50%">
+          <Fieldset.Content width={["100%", "90%", "80%", "50%"]}>
             <HStack
-              spaceX={2}
+              spaceX={["1", "2", "4"]}
               alignItems="center"
               justifyContent="space-between"
+              flexWrap={["wrap", "nowrap"]} // Wrap on mobile, nowrap on sm+
+              flexDirection={["column", "row"]} // Column on mobile, row on sm+
+              gap={["1", "2"]} // Added gap for better spacing
             >
               <Field.Root alignItems="center">
                 <Field.Label {...fieldLabelFont}>Option Root</Field.Label>
@@ -262,38 +269,48 @@ const MainBody = () => {
                   borderColor={
                     focusedField === "strikePrice" ? "green.700" : undefined
                   }
+                  maxLength={6} // Limit input length to prevent overflow
                 />
               </Field.Root>
             </HStack>
           </Fieldset.Content>
           <Box
             bg="green.600"
-            width={["100%", "80%", "60%", "40%", "30%"]} // Responsive widths across different devices
+            width={["100%", "80%", "60%", "40%"]} // Responsive widths across different devices
             height="auto"
             textAlign="center"
             display="flex"
             justifyContent="space-between"
             borderRadius="sm"
             alignItems="center"
-            padding={3}
-            mt={4}
+            padding={["1", "2"]}
+            mt={["1", "2"]}
             flexWrap="wrap" // allows wrapping on small screens
-            gap={2} // adds spacing when wrapped
+            gap={["1", "2"]} // adds spacing when wrapped
           >
-            <Text userSelect="text" whiteSpace="pre">
+            <Text
+              userSelect="text"
+              whiteSpace="pre"
+              fontSize={["xs", "sm", "md"]}
+            >
               {optionData.occSymbolCode ||
                 "Enter all fields correctly to generate code"}
             </Text>
             <Clipboard.Root value={optionData.occSymbolCode}>
               <ClipboardTrigger asChild>
-                <IconButton variant="ghost" color="red.400">
+                <IconButton variant="ghost" color="red.400" size="sm">
                   <Clipboard.Indicator />
                 </IconButton>
               </ClipboardTrigger>
             </Clipboard.Root>
           </Box>
         </Fieldset.Root>
-        <Box display="flex" justifyContent="center" alignItems="center" mt={6}>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          mt={["2", "4"]}
+        >
           <FileUpload.Root
             width={["100%", "80%", "60%", "40%", "30%"]}
             alignItems="center"
@@ -301,12 +318,14 @@ const MainBody = () => {
           >
             <FileUpload.HiddenInput onChange={handleFileUpload} accept=".csv" />
             <FileUpload.Dropzone>
-              <Icon size="lg" color="fg.muted">
+              <Icon size={["md", "lg"]} color="fg.muted">
                 <LuUpload />
               </Icon>
               <FileUpload.DropzoneContent>
-                <Box>Drag and drop files here</Box>
-                <Box color="fg.muted">.png, .jpg up to 5MB</Box>
+                <Box fontSize={["xs", "sm"]}>Drag and drop files here</Box>
+                <Box color="fg.muted" fontSize={["xs", "sm"]}>
+                  .png, .jpg up to 5MB
+                </Box>
               </FileUpload.DropzoneContent>
             </FileUpload.Dropzone>
             <FileUpload.List />
