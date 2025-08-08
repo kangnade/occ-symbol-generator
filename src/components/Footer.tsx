@@ -38,7 +38,7 @@ const Footer = () => {
               <LuExternalLink />
             </Link>
             <Link
-              href=""
+              href="https://github.com/kangnade/occ-symbol-generator/blob/main/README.md"
               target="_blank"
               rel="noopener noreferrer"
               fontSize={["xs", "sm"]}
@@ -58,7 +58,7 @@ const Footer = () => {
               <LuExternalLink />
             </Link>
             <Link
-              href="#"
+              href="https://github.com/kangnade/occ-symbol-generator/blob/main/README.md#bulk-upload"
               target="_blank"
               rel="noopener noreferrer"
               fontSize={["xs", "sm"]}
