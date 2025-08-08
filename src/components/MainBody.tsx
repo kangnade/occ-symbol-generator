@@ -104,7 +104,7 @@ const MainBody = () => {
         const realStrikePrice = (strikePriceNum * 1000)
           .toString()
           .padStart(8, "0");
-        const realOptionRoot = optionRoot.padEnd(6, " ");
+        const realOptionRoot = optionRoot.toUpperCase().padEnd(6, " ");
         const occSymbolCode = `${realOptionRoot}${expirationDate}${callPut}${realStrikePrice}`;
         setOptionData((prev) => ({ ...prev, occSymbolCode }));
       } else {
@@ -133,7 +133,7 @@ const MainBody = () => {
     // up to 8 digits
     const paddedStrikePrice = (strike * 1000).toString().padStart(8, "0");
     // Pad the option root with trailing space up to 6 chars
-    const paddedOptionRoot = optionRoot.padEnd(6, " ");
+    const paddedOptionRoot = optionRoot.toUpperCase().padEnd(6, " ");
 
     // return the occSymbolCode
     return `${paddedOptionRoot}${expirationDate}${callPut}${paddedStrikePrice}`;
